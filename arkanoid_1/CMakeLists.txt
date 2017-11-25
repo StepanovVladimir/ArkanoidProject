@@ -1,4 +1,4 @@
-add_executable(arkanoid_1 main.cpp)
+add_executable(arkanoid_1 main.cpp platform.cpp platform.h)
 
 target_include_directories(arkanoid_1 PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(arkanoid_1 PUBLIC cxx_std_17)
