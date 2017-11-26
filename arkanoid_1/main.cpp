@@ -3,7 +3,7 @@
 
 constexpr unsigned ANTIALIASING_LEVEL = 8;
 constexpr unsigned WINDOW_WIDTH = 600;
-constexpr unsigned WINDOW_HEIGHT = 800;
+constexpr unsigned WINDOW_HEIGHT = 600;
 constexpr unsigned MAX_FPS = 60;
 
 void createWindow(sf::RenderWindow& window)

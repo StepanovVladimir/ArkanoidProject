@@ -1,19 +1,19 @@
 #include "platform.h"
 
-constexpr float PLATFORM_SPEED = 300.f;
+constexpr float PLATFORM_SPEED = 400.f;
 
 constexpr float PLATFORM_WIDTH = 100.f;
 constexpr float PLATFORM_HEIGHT = 20.f;
 
 const sf::Color PLATFORM_COLOR = sf::Color(255, 0, 0);
 
-static const sf::Vector2f PLATFORM_INITIAL_POSITION = { 300, 770 };
+static const sf::Vector2f PLATFORM_INITIAL_POSITION = { 300, 560 };
 
 void initializePlatform(Platform& platform)
 {
     platform.direction = Direction::NONE;
     platform.shape.setSize({PLATFORM_WIDTH, PLATFORM_HEIGHT});
-    platform.shape.setOrigin({PLATFORM_WIDTH / 2, PLATFORM_HEIGHT / 2});
+    platform.shape.setOrigin({PLATFORM_WIDTH / 2, 0});
     platform.shape.setFillColor(PLATFORM_COLOR);
     platform.shape.setPosition(PLATFORM_INITIAL_POSITION);
 }
@@ -25,10 +25,16 @@ void updatePlatform(Platform& platform, float elapsedTime)
     switch (platform.direction)
     {
     case Direction::LEFT:
-        position.x -= step;
+        if (platform.shape.getPosition().x > 0)
+        {
+            position.x -= step;
+        }
         break;
     case Direction::RIGHT:
-        position.x += step;
+        if (platform.shape.getPosition().x < 600)
+        {
+            position.x += step;
+        }
         break;
     case Direction::NONE:
         break;
