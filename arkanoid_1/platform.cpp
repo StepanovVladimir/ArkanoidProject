@@ -25,13 +25,13 @@ void updatePlatform(Platform& platform, float elapsedTime)
     switch (platform.direction)
     {
     case Direction::LEFT:
-        if (platform.shape.getPosition().x > 0)
+        if (platform.shape.getPosition().x > PLATFORM_WIDTH / 2)
         {
             position.x -= step;
         }
         break;
     case Direction::RIGHT:
-        if (platform.shape.getPosition().x < 600)
+        if (platform.shape.getPosition().x < 600 - PLATFORM_WIDTH / 2)
         {
             position.x += step;
         }

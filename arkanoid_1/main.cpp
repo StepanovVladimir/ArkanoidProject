@@ -50,7 +50,7 @@ void render(sf::RenderWindow& window, const Platform& platform)
     window.display();
 }
 
-int main(int, char* [])
+int main()
 {
     sf::RenderWindow window;
     createWindow(window);
