@@ -3,7 +3,8 @@
 
 constexpr float BALL_RADIUS = 10;
 const sf::Color BALL_COLOR = sf::Color(255, 255, 255);
-static const sf::Vector2f BALL_INITIAL_POSITION = {300, 540};
+static const sf::Vector2f BALL_INITIAL_POSITION = {250, 570};
+constexpr float SPEED_MODULE = 424;
 
 void initializeBall(Ball& ball)
 {
@@ -11,7 +12,6 @@ void initializeBall(Ball& ball)
     ball.shape.setOrigin({BALL_RADIUS, BALL_RADIUS});
     ball.shape.setFillColor(BALL_COLOR);
     ball.shape.setPosition(BALL_INITIAL_POSITION);
-    ball.speed = {-300, -300};
 }
 
 void checkBallClashPlatform(sf::Vector2f& position, Ball& ball, Platform& platform)
@@ -21,18 +21,18 @@ void checkBallClashPlatform(sf::Vector2f& position, Ball& ball, Platform& platfo
     (position.y + BALL_RADIUS >= platform.shape.getPosition().y))
     {
         float distanceFromCenter = std::abs(position.x - platform.shape.getPosition().x);
-        float part = distanceFromCenter / platform.shape.getOrigin().x;
+        float relativeDistance = distanceFromCenter / platform.shape.getOrigin().x;
         float angle = 0;
         if (position.x < platform.shape.getPosition().x)
         {
-            angle = 90.f + 50.f * part;
+            angle = 90.f + 50.f * relativeDistance;
         }
         else
         {
-            angle = 90.f - 50.f * part;
+            angle = 90.f - 50.f * relativeDistance;
         }
-        ball.speed.x = 424 * std::cos(angle * M_PI / 180);
-        ball.speed.y = -424 * std::sin(angle * M_PI / 180);
+        ball.speed.x = SPEED_MODULE * std::cos(angle * M_PI / 180);
+        ball.speed.y = -SPEED_MODULE * std::sin(angle * M_PI / 180);
     }    
 }
 
