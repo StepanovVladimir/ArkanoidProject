@@ -10,3 +10,4 @@ find_package(SFML 2 COMPONENTS window graphics system REQUIRED)
 
 add_subdirectory(arkanoid_1)
 add_subdirectory(arkanoid_2)
+add_subdirectory(arkanoid_3)
