@@ -1,0 +1,32 @@
+#include "text.h"
+
+void initializeText(sf::Font& font, sf::Text (&texts)[TEXT_COUNT])
+{
+    font.loadFromFile("arialn.ttf");
+    for (auto& text : texts)
+    {
+        text.setFont(font);
+        text.setFillColor(sf::Color(255, 255, 255));
+        text.setOutlineColor(sf::Color(0, 0, 0));
+        text.setOutlineThickness(1.5);
+    }
+    texts[LOSE].setCharacterSize(50);
+    texts[LOSE].setPosition({220, 275});
+    texts[LOSE].setString("You lose");
+    texts[WIN].setCharacterSize(50);
+    texts[WIN].setPosition({230, 275});
+    texts[WIN].setString("You win");
+    texts[PAUSE].setCharacterSize(50);
+    texts[PAUSE].setPosition({240, 275});
+    texts[PAUSE].setString("Pause");
+    texts[SCORE].setCharacterSize(30);
+    texts[SCORE].setPosition({180, 0});
+    texts[LIVES].setCharacterSize(30);
+    texts[LIVES].setPosition({310, 0});
+}
+
+void updateText(sf::Text (&texts)[TEXT_COUNT], Ball& ball)
+{
+    texts[SCORE].setString("Score: " + std::to_string(ball.score));
+    texts[LIVES].setString("Lives: " + std::to_string(ball.live));
+}
