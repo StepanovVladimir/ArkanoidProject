@@ -10,12 +10,15 @@ void initializeText(sf::Font& font, sf::Text (&texts)[TEXT_COUNT])
         text.setOutlineColor(sf::Color(0, 0, 0));
         text.setOutlineThickness(1.5);
     }
+    texts[HOME].setCharacterSize(50);
+    texts[HOME].setPosition({120, 50});
+    texts[HOME].setString("      ARKANOID\n\n\n\nPress Enter to start");
     texts[LOSE].setCharacterSize(50);
-    texts[LOSE].setPosition({220, 275});
-    texts[LOSE].setString("You lose");
+    texts[LOSE].setPosition({100, 265});
+    texts[LOSE].setString("          You lose\nPress Enter to restart");
     texts[WIN].setCharacterSize(50);
-    texts[WIN].setPosition({230, 275});
-    texts[WIN].setString("You win");
+    texts[WIN].setPosition({100, 265});
+    texts[WIN].setString("           You win\nPress Enter to restart");
     texts[PAUSE].setCharacterSize(50);
     texts[PAUSE].setPosition({240, 275});
     texts[PAUSE].setString("Pause");

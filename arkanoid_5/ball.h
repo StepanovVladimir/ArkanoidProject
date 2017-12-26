@@ -10,9 +10,10 @@ struct Ball
 {
     sf::CircleShape shape;
     sf::Vector2f speed;
-    int live = 3;
-    int score = 0;
+    int live;
+    int score;
     bool gameOver = false;
+    bool win = false;
 };
 
 void initializeBall(Ball& ball);

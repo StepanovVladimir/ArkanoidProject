@@ -20,17 +20,17 @@ void initializeBlocks(std::vector<Block>& blocks)
             blocks[i].shape.setPosition({positionX, positionY});
             blocks[i].shape.setSize({BLOCK_WIDTH, BLOCK_HEIGHT});
             blocks[i].shape.setOrigin({BLOCK_WIDTH / 2, BLOCK_HEIGHT / 2});
-            if ((iX == 0) || (iX == 7) || (iY == 0) || (iY == 7))
+            blocks[i].strong = false;
+            blocks[i].shape.setFillColor(BLOCK_COLOR);
+            if ((iX == 0) || (iX == COUNT_BLOCKS_X - 1) ||
+                (iY == 0) || (iY == COUNT_BLOCKS_Y - 1))
             {
                 blocks[i].strong = true;
                 blocks[i].shape.setFillColor(STRONG_BLOCK_COLOR);
             }
-            else
-            {
-                blocks[i].shape.setFillColor(BLOCK_COLOR);
-            }
             blocks[i].shape.setOutlineColor(sf::Color(0, 0, 0));
             blocks[i].shape.setOutlineThickness(1.5);
+            blocks[i].destroyed = false;
         }
     }
 }

@@ -13,6 +13,8 @@ void initializeBall(Ball& ball)
     ball.shape.setPosition(BALL_INITIAL_POSITION);
     ball.shape.setOutlineColor(sf::Color(0, 0, 0));
     ball.shape.setOutlineThickness(1.5);
+    ball.live = 3;
+    ball.score = 0;
 }
 
 void checkBallClashPlatform(sf::Vector2f& position, Ball& ball, Platform& platform)
