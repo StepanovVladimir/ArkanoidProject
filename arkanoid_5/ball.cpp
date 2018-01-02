@@ -3,7 +3,6 @@
 constexpr float BALL_RADIUS = 7;
 const sf::Color BALL_COLOR = sf::Color(255, 255, 255);
 static const sf::Vector2f BALL_INITIAL_POSITION = {275, 568};
-constexpr float SPEED_MODULE = 425;
 
 void initializeBall(Ball& ball)
 {
@@ -13,8 +12,12 @@ void initializeBall(Ball& ball)
     ball.shape.setPosition(BALL_INITIAL_POSITION);
     ball.shape.setOutlineColor(sf::Color(0, 0, 0));
     ball.shape.setOutlineThickness(1.5);
-    ball.live = 3;
+    ball.speedModule = 450;
+    ball.live = 1;
     ball.score = 0;
+    ball.ended = false;
+    ball.win = false;
+    ball.slowed - false;
 }
 
 void checkBallClashPlatform(sf::Vector2f& position, Ball& ball, Platform& platform)
@@ -35,8 +38,8 @@ void checkBallClashPlatform(sf::Vector2f& position, Ball& ball, Platform& platfo
         {
             angle = 90.f - 50.f * relativeDistance;
         }
-        ball.speed.x = SPEED_MODULE * std::cos(angle * M_PI / 180);
-        ball.speed.y = -SPEED_MODULE * std::sin(angle * M_PI / 180);
+        ball.speed.x = ball.speedModule * std::cos(angle * M_PI / 180);
+        ball.speed.y = -ball.speedModule * std::sin(angle * M_PI / 180);
     }    
 }
 
@@ -47,9 +50,9 @@ void checkBallClashBlocks(sf::Vector2f& position, Ball& ball, Block& block)
         (position.y + BALL_RADIUS >= block.shape.getPosition().y - block.shape.getOrigin().y) &&
         (position.y - BALL_RADIUS <= block.shape.getPosition().y + block.shape.getOrigin().y))
     {
-        if (block.strong)
+        if (block.direction == DirectionBlocks::STRONG)
         {
-            block.strong = false;
+            block.direction = DirectionBlocks::NONE;
             block.shape.setFillColor(BLOCK_COLOR);
         }
         else
@@ -114,8 +117,14 @@ void updateBall(Ball& ball, float elapsedTime, Platform& platform, std::vector<B
         }
         else
         {
-            ball.gameOver = true;
+            ball.ended = true;
         }
+    }
+    if (ball.slowed)
+    {
+        ball.speed = ball.speed / float(1.25);
+        ball.speedModule = ball.speedModule / 1.25;
+        ball.slowed = false;
     }
     checkBallClashPlatform(position, ball, platform); 
     for (auto& block : blocks)

@@ -4,8 +4,10 @@
 
 constexpr unsigned WINDOW_WIDTH = 600;
 constexpr unsigned WINDOW_HEIGHT = 600;
+constexpr float PLATFORM_WIDTH = 80.f;
+constexpr float PLATFORM_HEIGHT = 10.f;
 
-enum struct Direction
+enum struct DirectionPlatform
 {
     NONE,
     LEFT,
@@ -15,7 +17,7 @@ enum struct Direction
 struct Platform
 {
     sf::RectangleShape shape;
-    Direction direction;
+    DirectionPlatform direction;
 };
 
 void initializePlatform(Platform& platform);

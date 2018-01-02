@@ -1,4 +1,4 @@
-add_executable(arkanoid_5 main.cpp platform.cpp platform.h ball.cpp ball.h text.cpp text.h blocks.cpp blocks.h backgraund.cpp backgraund.h)
+add_executable(arkanoid_5 main.cpp platform.cpp platform.h ball.cpp ball.h text.cpp text.h blocks.cpp blocks.h backgraund.cpp backgraund.h bonuses.cpp bonuses.h)
 
 target_include_directories(arkanoid_5 PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(arkanoid_5 PUBLIC cxx_std_17)

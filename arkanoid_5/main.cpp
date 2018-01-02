@@ -1,5 +1,6 @@
 #include "text.h"
 #include "backgraund.h"
+#include "bonuses.h"
 
 constexpr unsigned ANTIALIASING_LEVEL = 8;
 constexpr unsigned MAX_FPS = 60;
@@ -13,7 +14,7 @@ void createWindow(sf::RenderWindow& window)
     window.setFramerateLimit(MAX_FPS);
 }
 
-void handlePause(const sf::Event::KeyEvent& event, bool& pause)
+void handlePause(const sf::Event::KeyEvent& event, bool& pause, Ball& ball, bool& homeScreen)
 {
     switch (event.code)
     {
@@ -22,7 +23,7 @@ void handlePause(const sf::Event::KeyEvent& event, bool& pause)
         {
             pause = false;
         }
-        else
+        else if (!ball.ended && !ball.win && !homeScreen)
         {
             pause = true;
         }
@@ -35,7 +36,7 @@ void handleStart(const sf::Event::KeyEvent& event, Ball& ball, bool& start, bool
     switch (event.code)
     {
     case sf::Keyboard::Return:
-        if (ball.gameOver || ball.win || homeScreen)
+        if (ball.ended || ball.win || homeScreen)
         {
             start = true;
             homeScreen = false;
@@ -57,7 +58,7 @@ void handleEvents(sf::RenderWindow& window, Platform& platform, Ball& ball, bool
         else if (event.type == sf::Event::KeyPressed)
         {
             handlePlatformKeyPress(event.key, platform);
-            handlePause(event.key, pause);
+            handlePause(event.key, pause, ball, homeScreen);
             handleStart(event.key, ball, start, homeScreen);
         }
         else if (event.type == sf::Event::KeyReleased)
@@ -67,34 +68,54 @@ void handleEvents(sf::RenderWindow& window, Platform& platform, Ball& ball, bool
     }
 }
 
-void initializeObject(Platform& platform, Ball& ball, std::vector<Block>& blocks, bool& start)
+void removeObject(std::vector<Block>& blocks, std::vector<Bonus>& bonuses)
 {
-    initializePlatform(platform);
-    initializeBall(ball);
-    ball.gameOver = false;
-    ball.win = false;
     for (auto& block : blocks)
     {
         block.destroyed = true;
     }
+    for(auto& bonus : bonuses)
+    {
+        bonus.destroyed = true;
+    }
     removeDeathBlocks(blocks);
+    removeDeathBonuses(bonuses);
+}
+
+void initializeObject(Platform& platform, Ball& ball, std::vector<Block>& blocks)
+{
+    initializePlatform(platform);
+    initializeBall(ball);
     initializeBlocks(blocks);
-    start = false;
 }
 
 void update(sf::Clock& clock, Platform& platform, Ball& ball, std::vector<Block>& blocks,
-    sf::Text (&texts)[TEXT_COUNT], bool& pause, bool& start, bool& homeScreen)
+    std::vector<Bonus>& bonuses, sf::Text (&texts)[TEXT_COUNT], bool& pause, bool& start,
+    bool& homeScreen)
 {
     if (start)
     {
-        initializeObject(platform, ball, blocks, start);
+        removeObject(blocks, bonuses);
+        initializeObject(platform, ball, blocks);
+        start = false;
     }
     const float elapsedTime = clock.restart().asSeconds();
-    if (!ball.gameOver && !ball.win && !pause && !homeScreen)
+    if (!ball.ended && !ball.win && !pause && !homeScreen)
     {
         updatePlatform(platform, elapsedTime);
         updateBall(ball, elapsedTime, platform, blocks);
+        for (auto& block : blocks)
+        {
+            if (block.destroyed && ((block.direction == DirectionBlocks::BONUS_LIVE) ||
+                (block.direction == DirectionBlocks::BONUS_EXTENSION) ||
+                (block.direction == DirectionBlocks::BONUS_SLOWING)))
+            {
+                initializeBonus(bonuses, block);
+            }
+        }
         removeDeathBlocks(blocks);
+        updateBonuses(bonuses, elapsedTime, platform, ball);
+        removeDeathBonuses(bonuses);
         if (blocks.size() == 0)
         {
             ball.win = true;
@@ -104,7 +125,8 @@ void update(sf::Clock& clock, Platform& platform, Ball& ball, std::vector<Block>
 }
 
 void render(sf::RenderWindow& window, Backgraund& backgraund, Platform& platform, Ball& ball,
-    std::vector<Block>& blocks, sf::Text (&texts)[TEXT_COUNT], bool& pause, bool& homeScreen)
+    std::vector<Block>& blocks, std::vector<Bonus>& bonuses, sf::Text (&texts)[TEXT_COUNT],
+    bool& pause, bool& homeScreen)
 {
     window.clear();
     window.draw(backgraund.sprite);
@@ -114,11 +136,15 @@ void render(sf::RenderWindow& window, Backgraund& backgraund, Platform& platform
     {
         window.draw(block.shape);
     }
+    for (auto& bonus : bonuses)
+    {
+        window.draw(bonus.shape);
+    }
     if (homeScreen)
     {
         window.draw(texts[HOME]);
     }
-    else if (ball.gameOver)
+    else if (ball.ended)
     {
         window.draw(texts[LOSE]);
     }
@@ -143,6 +169,7 @@ int main()
     Platform platform;
     Ball ball;
     std::vector<Block> blocks;
+    std::vector<Bonus> bonuses;
     sf::Font font;
     sf::Text texts[TEXT_COUNT];
     initializeBackgraund(backgraund);
@@ -154,8 +181,8 @@ int main()
     while (window.isOpen())
     {
         handleEvents(window, platform, ball, pause, start, homeScreen);
-        update(clock, platform, ball, blocks, texts, pause, start, homeScreen);
-        render(window, backgraund, platform, ball, blocks, texts, pause, homeScreen);
+        update(clock, platform, ball, blocks, bonuses, texts, pause, start, homeScreen);
+        render(window, backgraund, platform, ball, blocks, bonuses, texts, pause, homeScreen);
     }
     return 0;
 }
