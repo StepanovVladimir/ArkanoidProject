@@ -32,12 +32,12 @@ void initializeBlocks(std::vector<Block>& blocks)
                 blocks[i].direction = DirectionBlocks::BONUS_LIVE;
                 blocks[i].shape.setFillColor(BONUS_LIVE_COLOR);
             }
-            if ((iY == 3) && (iX == 3))
+            if (((iY == 3) && (iX == 3)) || ((iY == 1) && (iX == 0)))
             {
                 blocks[i].direction = DirectionBlocks::BONUS_EXTENSION;
                 blocks[i].shape.setFillColor(BONUS_EXTENSION_COLOR);
             }
-            if ((iY == 3) && (iX == 6))
+            if (((iY == 3) && (iX == 6)) || ((iY == 1) && (iX == 9)))
             {
                 blocks[i].direction = DirectionBlocks::BONUS_SLOWING;
                 blocks[i].shape.setFillColor(BONUS_SLOWING_COLOR);

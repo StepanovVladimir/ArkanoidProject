@@ -1,6 +1,6 @@
 #include "platform.h"
 
-constexpr float PLATFORM_SPEED = 425.f;
+constexpr float PLATFORM_SPEED = 450;
 const sf::Color PLATFORM_COLOR = sf::Color(255, 0, 0);
 static const sf::Vector2f PLATFORM_INITIAL_POSITION = {300, 575};
 

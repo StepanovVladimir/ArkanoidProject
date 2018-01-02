@@ -12,7 +12,7 @@ void initializeBall(Ball& ball)
     ball.shape.setPosition(BALL_INITIAL_POSITION);
     ball.shape.setOutlineColor(sf::Color(0, 0, 0));
     ball.shape.setOutlineThickness(1.5);
-    ball.speedModule = 450;
+    ball.speedModule = 500;
     ball.live = 1;
     ball.score = 0;
     ball.ended = false;
@@ -32,11 +32,11 @@ void checkBallClashPlatform(sf::Vector2f& position, Ball& ball, Platform& platfo
         float angle = 0;
         if (position.x < platform.shape.getPosition().x)
         {
-            angle = 90.f + 50.f * relativeDistance;
+            angle = 90 + 50 * relativeDistance;
         }
         else
         {
-            angle = 90.f - 50.f * relativeDistance;
+            angle = 90 - 50 * relativeDistance;
         }
         ball.speed.x = ball.speedModule * std::cos(angle * M_PI / 180);
         ball.speed.y = -ball.speedModule * std::sin(angle * M_PI / 180);
@@ -119,12 +119,6 @@ void updateBall(Ball& ball, float elapsedTime, Platform& platform, std::vector<B
         {
             ball.ended = true;
         }
-    }
-    if (ball.slowed)
-    {
-        ball.speed = ball.speed / float(1.25);
-        ball.speedModule = ball.speedModule / 1.25;
-        ball.slowed = false;
     }
     checkBallClashPlatform(position, ball, platform); 
     for (auto& block : blocks)

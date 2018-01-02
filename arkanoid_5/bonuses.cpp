@@ -1,7 +1,7 @@
 #include "bonuses.h"
 
 constexpr float BONUS_RADIUS = 10;
-constexpr float BONUS_SPEED = 225;
+constexpr float BONUS_SPEED = 275;
 
 void initializeBonus(std::vector<Bonus>& bonuses, Block& block)
 {
@@ -47,8 +47,10 @@ void checkClash(Bonus& bonus, sf::Vector2f& position, Platform& platform, Ball& 
             platform.shape.setSize({PLATFORM_WIDTH * 1.5, PLATFORM_HEIGHT});
             platform.shape.setOrigin({PLATFORM_WIDTH * 0.75, 0});
         }
-        if (bonus.direction == DirectionBonuses::SLOWING)
+        if ((bonus.direction == DirectionBonuses::SLOWING) && !ball.slowed)
         {
+            ball.speed = ball.speed / 1.25f;
+            ball.speedModule = ball.speedModule / 1.25;
             ball.slowed = true;
         }
     }
