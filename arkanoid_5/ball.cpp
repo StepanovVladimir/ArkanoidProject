@@ -15,9 +15,9 @@ void initializeBall(Ball& ball)
     ball.speedModule = 500;
     ball.live = 1;
     ball.score = 0;
-    ball.ended = false;
+    ball.lose = false;
     ball.win = false;
-    ball.slowed - false;
+    ball.slowed = false;
 }
 
 void checkBallClashPlatform(sf::Vector2f& position, Ball& ball, Platform& platform)
@@ -117,7 +117,7 @@ void updateBall(Ball& ball, float elapsedTime, Platform& platform, std::vector<B
         }
         else
         {
-            ball.ended = true;
+            ball.lose = true;
         }
     }
     checkBallClashPlatform(position, ball, platform); 

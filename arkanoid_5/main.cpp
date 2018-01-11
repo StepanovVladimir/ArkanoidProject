@@ -23,7 +23,7 @@ void handlePause(const sf::Event::KeyEvent& event, bool& pause, Ball& ball, bool
         {
             pause = false;
         }
-        else if (!ball.ended && !ball.win && !homeScreen)
+        else if (!ball.lose && !ball.win && !homeScreen)
         {
             pause = true;
         }
@@ -36,7 +36,7 @@ void handleStart(const sf::Event::KeyEvent& event, Ball& ball, bool& start, bool
     switch (event.code)
     {
     case sf::Keyboard::Return:
-        if (ball.ended || ball.win || homeScreen)
+        if (ball.lose || ball.win || homeScreen)
         {
             start = true;
             homeScreen = false;
@@ -100,7 +100,7 @@ void update(sf::Clock& clock, Platform& platform, Ball& ball, std::vector<Block>
         start = false;
     }
     const float elapsedTime = clock.restart().asSeconds();
-    if (!ball.ended && !ball.win && !pause && !homeScreen)
+    if (!ball.lose && !ball.win && !pause && !homeScreen)
     {
         updatePlatform(platform, elapsedTime);
         updateBall(ball, elapsedTime, platform, blocks);
@@ -144,7 +144,7 @@ void render(sf::RenderWindow& window, Backgraund& backgraund, Platform& platform
     {
         window.draw(texts[HOME]);
     }
-    else if (ball.ended)
+    else if (ball.lose)
     {
         window.draw(texts[LOSE]);
     }

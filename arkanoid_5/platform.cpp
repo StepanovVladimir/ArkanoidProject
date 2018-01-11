@@ -33,8 +33,6 @@ void updatePlatform(Platform& platform, float elapsedTime)
             position.x += step;
         }
         break;
-    case DirectionPlatform::NONE:
-        break;
     }
     platform.shape.setPosition(position);
 }

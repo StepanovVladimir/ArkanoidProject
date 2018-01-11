@@ -13,7 +13,7 @@ struct Ball
     float speedModule;
     int live;
     int score;
-    bool ended;
+    bool lose;
     bool win;
     bool slowed;
 };
