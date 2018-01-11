@@ -54,7 +54,7 @@ void checkClash(Bonus& bonus, sf::Vector2f& position, Platform& platform, Ball& 
             ball.slowed = true;
         }
     }
-    if (position.y >= WINDOW_HEIGHT)
+    if (position.y - BONUS_RADIUS >= WINDOW_HEIGHT)
     {
         bonus.destroyed = true;
     }
