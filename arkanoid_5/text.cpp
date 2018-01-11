@@ -2,7 +2,7 @@
 
 void initializeText(sf::Font& font, sf::Text (&texts)[TEXT_COUNT])
 {
-    font.loadFromFile("arialn.ttf");
+    font.loadFromFile("res/arialn.ttf");
     for (auto& text : texts)
     {
         text.setFont(font);

@@ -2,7 +2,7 @@
 
 void initializeText(String& string)
 {
-    string.font.loadFromFile("arialn.ttf");
+    string.font.loadFromFile("res/arialn.ttf");
     string.lose.setFont(string.font);
     string.lose.setString("You lose");
     string.lose.setCharacterSize(50);

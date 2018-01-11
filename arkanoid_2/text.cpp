@@ -2,7 +2,7 @@
 
 void initializeText(sf::Font& font, sf::Text& text)
 {
-    if (font.loadFromFile("arialn.ttf"))
+    if (font.loadFromFile("res/arialn.ttf"))
     {
         text.setFont(font);
         text.setString("You lose");
